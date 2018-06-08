@@ -66,6 +66,10 @@ window.App = {
     });
   },
 
+   callOracle: function() {
+    //llamar funcion contrato
+  },
+
   createONG: function() {
     console.log('dasdsaads');
   },

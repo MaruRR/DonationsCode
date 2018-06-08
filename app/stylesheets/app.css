@@ -7,7 +7,7 @@ body {
 
 label {
   display: inline-block;
-  width: 100px;
+  width: 102px;
 }
 
 input {
@@ -50,3 +50,5 @@ h3 {
 .hint {
   color: #666;
 }
+
+

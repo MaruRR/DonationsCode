@@ -31,6 +31,7 @@ struct DateTimeCreation {
 		address addr;
 		string nombre;
 		bool exists;
+		Date FechaNacimiento;
 	}
 
 	mapping (string=> address) ONGnames;
