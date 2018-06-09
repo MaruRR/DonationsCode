@@ -68,6 +68,7 @@ window.App = {
 
    callOracle: function() {
     //llamar funcion contrato
+    console.log('si');
   },
 
   createONG: function() {
