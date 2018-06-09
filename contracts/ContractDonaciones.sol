@@ -76,14 +76,11 @@ struct DateTimeCreation {
 
 	function donation(address _addressONG) public payable{
 		if(msg.sender.balance >= msg.value ){
-						 //las variables se actualizan en el contrato o en la js? 
-												 //como funciona el oracle? como se intercambia informacion con el contrato?
-												 //como intercambio informacion, con la innterfaz grafica?
-												 //metamask, como trabajamos con las direcciones de ganache?
-
+			address(this).transfer(msg.value);
 		}
+	}
 
-
-
+	function oracleFunction() public payable{
+		
 	}
 }
