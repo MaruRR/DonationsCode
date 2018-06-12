@@ -50,7 +50,7 @@ window.App = {
     status.innerHTML = message;
   },
 
-   callOracle: function() {
+  callOracle: function() {
     console.log("callOracle");
     var self = this;
     var meta;
@@ -76,7 +76,8 @@ window.App = {
   },
 
   mostrarONG: function() {
-    console.log("mostrar ONG");
+    var dir = document.getElementById('DirONGBuscar').value;
+    console.log("mostrar ONG + " + dir);
     var self = this;
     var meta;
     
@@ -87,11 +88,50 @@ window.App = {
 
       meta = instance;
       console.log('entro');
-      return meta.getONG('0xf17f52151ebef6c7334fad080c5704d77216b732');
+      return meta.getONG(dir);
     }).then(function(value) {
       console.log('ongggg');
       console.log(value); // lo del return
-      balance_element.innerHTML = value.valueOf();
+      var valor = document.getElementById("NombreONGBuscar");
+      valor.innerHTML = value[0].valueOf();
+      valor = document.getElementById("MisionONGBuscar");
+      valor.innerHTML = value[1].valueOf();
+      valor = document.getElementById("VisionONGBuscar");
+      valor.innerHTML = value[2].valueOf();
+      valor = document.getElementById("ObjetivoONGBuscar");
+      valor.innerHTML = value[3].c.valueOf();
+      valor = document.getElementById("BalanceONGBuscar");
+      valor.innerHTML = value[4].c.valueOf();
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error getting balance; see log.");
+    });
+    console.log('si algo');
+    
+  },
+
+  mostrarDonador: function() {
+    var dir = document.getElementById('DirDonadorBuscar').value;
+    console.log("mostrar Donador + " + dir);
+    var self = this;
+    var meta;
+    
+    ContractDonaciones.deployed().then(function (instance) {
+      console.log("instance");
+      console.log(instance);
+
+      meta = instance;
+      console.log('entro');
+      return meta.getDonator(dir);
+    }).then(function(value) {
+      console.log('donaaaaaaaaatorrrr');
+      console.log(value); // lo del return
+      var valor = document.getElementById("NombreDonadorBuscar");
+      valor.innerHTML = value[0].valueOf();
+      valor = document.getElementById("ApellidoDonadorBuscar");
+      valor.innerHTML = value[1].valueOf();
+      valor = document.getElementById("CIDonadorBuscar");
+      valor.innerHTML = value[2].valueOf();
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error getting balance; see log.");
@@ -128,29 +168,28 @@ window.App = {
   },
 
   createDonator: function() {
-    var balance_element = document.getElementById("balance");
+    var meta;
+    //var balance_element = document.getElementById("balance");
     var self = this;
 
-    var nombre = parseInt(document.getElementById("nombre").value);
-   
+    var CI = document.getElementById("ci").value;
+    var nombre = document.getElementById("nombre").value;
+    var apellido = document.getElementById("apellido").value;
 
-    this.setStatus("Initiating transaction... (please wait)");
+    ContractDonaciones.deployed().then(function (instance) {
+      console.log("instance");
+      console.log(instance);
 
-    var meta;
-    console.log('jaaaaaaaaaaaaaa');
-    ContractDonaciones.deployed().then(function(instance) {
-      console.log('jeeeeeeeeeeee');
       meta = instance;
-      console.log(meta);
-      return meta.addDonator(nombre);
-    }).then(function() {
-
-      balance_element.innerHTML = 'jajaj';
-      //self.refreshBalance();
+      console.log('entro'); 
+      return meta.addDonator(CI, nombre, apellido, {from: account, gas: 2000000});
+    }).then(function(value) {
+      console.log('daaa');
     }).catch(function(e) {
       console.log(e);
-      balance_element.innerHTML = 'jaj';
+      console.log('ERRRORRRR');
     });
+    console.log('si algo');
     
   },
   sendDonation: function() {

@@ -7,21 +7,49 @@
 </head>
 <body>
   <h1>GIVE A HAND</h1>
-  <h2>DONACIONES ONG</h2>
-  <h3>You have <span class="black"><span id="balance"></span> META</span></h3>
+  <h2>MOSTRAR INFORMACIÓN ONG</h2>
+  <br><label for="buscarONG">Direccion de ONG:</label><input type="text" id="DirONGBuscar"></input>
+  <br>
+  <br><label for="buscarONG">Nombre:</label><div type="text" id="NombreONGBuscar"></div>
+  <br>
+  <br><label for="buscarONG">Mision:</label><div type="text" id="MisionONGBuscar"></div>
+  <br>
+  <br><label for="buscarONG">Vision:</label><div type="text" id="VisionONGBuscar"></div>
+  <br>
+  <br><label for="buscarONG">Objetivo:</label><div type="text" id="ObjetivoONGBuscar"></div>
+  <br>
+  <br><label for="buscarONG">Monto a ser acreditado:</label><div type="text" id="BalanceONGBuscar"></div>
   <br><br><button id="Oracle" onclick="App.mostrarONG()">Mostrar ONG</button>
+  <br>
+  <hr align="left" noshade="noshade" size="2" width="80%" />
+  <h2>MOSTRAR INFORMACIÓN DONADOR</h2>
+  <br><label for="buscarONG">Direccion del donador:</label><input type="text" id="DirDonadorBuscar"></input>
+  <br>
+  <br><label for="buscarONG">Nombre:</label><div type="text" id="NombreDonadorBuscar"></div>
+  <br>
+  <br><label for="buscarONG">Apellido:</label><div type="text" id="ApellidoDonadorBuscar"></div>
+  <br>
+  <br><label for="buscarONG">CI:</label><div type="text" id="CIDonadorBuscar"></div>
+  <br>
+  <br><br><button id="Oracle" onclick="App.mostrarDonador()">Mostrar donador</button>
+  <br>
+  <br>
+  <h2>LLAMAR ORACLE</h2>
   <br><br><button id="Oracle" onclick="App.callOracle()">Call Oracle</button>
   <br><br>
   <br>
   <!-- <h1>Send MetaCoin</h1> -->
+  <h2>CREAR DONADOR</h2>
+  <br><label for="receiver">CI:</label><input type="text" id="ci"></input>
   <br><label for="amount">Nombre:</label><input type="text" id="nombre"></input>
-  <br><label for="receiver">Fecha Nacimiento:</label><input type="Date" id="receiver"></input>
+  <br><label for="receiver">Apellido:</label><input type="text" id="apellido"></input>
   <br><br><button id="send" onclick="App.createDonator()">Crear Donador</button>
   <br><br>
   <span id="status"></span>
   <br>
 
-    <br>
+  <br>
+  <h2>CREAR ONG</h2>
   <!-- <h1>Send MetaCoin</h1> -->
   <br><label for="amount">Nombre:</label><input type="text" id="NombreONG"></input>
   <br><label for="receiver">Mision:</label><input type="text" id="Mision"></input>

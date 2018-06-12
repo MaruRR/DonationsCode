@@ -30,8 +30,10 @@ contract ContractDonaciones {
 	struct Donator{
 		address addr;
 		string nombre;
+		string apellido;
+		string CI;
 		bool exists;
-		DateTimeCreation FechaNacimiento;
+		//DateTimeCreation FechaNacimiento;
 	}
 
 	mapping (string=> address) ONGnames;
@@ -40,15 +42,16 @@ contract ContractDonaciones {
 
 	event checkAdvances (address _addressONG);
 
-	function addDonator(string _nombre) public returns (bool){
+	function addDonator(string _CI, string _nombre, string _apellido) public returns (bool){
 		bool donatorAdded;
 		if(!donators[msg.sender].exists) {
 			donators[msg.sender].nombre = _nombre;
+			donators[msg.sender].apellido= _apellido;
+			donators[msg.sender].CI= _CI;
 			donators[msg.sender].exists=true;
 			donators[msg.sender].addr=msg.sender;
 			donatorAdded=true;
 		}
-
 		else{
 			donatorAdded=false; 
 		}	
@@ -67,12 +70,18 @@ contract ContractDonaciones {
 			//ONGs[msg.sender].creationDate=_creationDate;
 			ONGnames[_nombre]=msg.sender;
 			ONGAdded=true;
-			
 		}
-
 		else{
 			ONGAdded=false; 
-		}		
+		}
+		return ONGAdded;		
+	}
+
+	function getDonator(address _addressONG) public view returns (string _nombre, string _apellido, string _CI){
+		_nombre = donators[_addressONG].nombre;
+		_apellido = donators[_addressONG].apellido;
+		_CI = donators[_addressONG].CI;
+		return( _nombre,  _apellido,  _CI);
 	}
 
 	function getONG(address _addressONG) public view returns (string _nombre, string _vision, string _mision, int _objective, uint _balance){
