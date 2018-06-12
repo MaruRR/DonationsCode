@@ -9,7 +9,7 @@ import "./ConvertLib.sol";
 
 contract ContractDonaciones {
 
-struct DateTimeCreation {
+	struct DateTimeCreation {
         uint16 year;
         uint8 month;
         uint8 day;
@@ -21,7 +21,7 @@ struct DateTimeCreation {
 		string mision;
 		string vision;
 		int objective;
-		int actualBalance;
+		uint actualBalance;
 		//DateTimeCreation creationDate;
 		bool exists;
 		mapping(address=>Donator) donatorsOfONG;
@@ -67,6 +67,7 @@ struct DateTimeCreation {
 			//ONGs[msg.sender].creationDate=_creationDate;
 			ONGnames[_nombre]=msg.sender;
 			ONGAdded=true;
+			
 		}
 
 		else{
@@ -74,13 +75,24 @@ struct DateTimeCreation {
 		}		
 	}
 
-	function donation(address _addressONG) public payable{
-		if(msg.sender.balance >= msg.value ){
-			address(this).transfer(msg.value);
-		}
+	function getONG(address _addressONG) public view returns (string _nombre, string _vision, string _mision, int _objective, uint _balance){
+		_nombre = ONGs[_addressONG].nombre;
+		_vision = ONGs[_addressONG].vision;
+		_mision = ONGs[_addressONG].mision;
+		_objective = ONGs[_addressONG].objective;
+		_balance = ONGs[_addressONG].actualBalance;
+		return( _nombre,  _vision,  _mision,  _objective,  _balance);
 	}
 
-	function oracleFunction() public payable{
-		
+
+	function donation(address _addressONG) public payable {
+			//address(this).transfer(msg.value);
+		require(msg.value > 0);
+		require(ONGs[_addressONG].exists);
+		ONGs[_addressONG].actualBalance= ONGs[_addressONG].actualBalance + msg.value;	
+	}
+
+	function confirmarDonacion(address _ong) public payable {
+
 	}
 }

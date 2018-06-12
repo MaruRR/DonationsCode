@@ -6,11 +6,11 @@ import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
-import metacoin_artifacts from '../../build/contracts/MetaCoin.json'
+//import metacoin_artifacts from '../../build/contracts/MetaCoin.json'
 import contractDonaciones_artifacts from '../../build/contracts/ContractDonaciones.json'
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
-var MetaCoin = contract(metacoin_artifacts);
+//var MetaCoin = contract(metacoin_artifacts);
 var ContractDonaciones = contract(contractDonaciones_artifacts);
 
 // The following code is simple to show off interacting with your contracts.
@@ -24,7 +24,7 @@ window.App = {
     var self = this;
 
     // Bootstrap the MetaCoin abstraction for Use.
-    MetaCoin.setProvider(web3.currentProvider);
+    ContractDonaciones.setProvider(web3.currentProvider);
 
     // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
@@ -41,7 +41,7 @@ window.App = {
       accounts = accs;
       account = accounts[0];
 
-      self.refreshBalance();
+      //self.refreshBalance();
     });
   },
 
@@ -50,33 +50,86 @@ window.App = {
     status.innerHTML = message;
   },
 
-  refreshBalance: function() {
+   callOracle: function() {
+    console.log("callOracle");
     var self = this;
-
     var meta;
-    MetaCoin.deployed().then(function(instance) {
+    
+
+    ContractDonaciones.deployed().then(function (instance) {
+      console.log("instance");
+      console.log(instance);
+
       meta = instance;
-      return meta.getBalance.call(account, {from: account});
+      console.log('entro');
+      return meta.confirmarDonacion(account, {from: account});
     }).then(function(value) {
+      console.log('entro lal');
       var balance_element = document.getElementById("balance");
       balance_element.innerHTML = value.valueOf();
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error getting balance; see log.");
     });
+    console.log('si algo');
+    
   },
 
-   callOracle: function() {
-    //llamar funcion contrato
-    console.log('si');
+  mostrarONG: function() {
+    console.log("mostrar ONG");
+    var self = this;
+    var meta;
+    
+
+    ContractDonaciones.deployed().then(function (instance) {
+      console.log("instance");
+      console.log(instance);
+
+      meta = instance;
+      console.log('entro');
+      return meta.getONG('0xf17f52151ebef6c7334fad080c5704d77216b732');
+    }).then(function(value) {
+      console.log('ongggg');
+      console.log(value); // lo del return
+      balance_element.innerHTML = value.valueOf();
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error getting balance; see log.");
+    });
+    console.log('si algo');
+    
   },
 
   createONG: function() {
-    console.log('dasdsaads');
+    console.log("crear ONG");
+    var self = this;
+    var meta;
+    
+
+    ContractDonaciones.deployed().then(function (instance) {
+      console.log("instance");
+      console.log(instance);
+
+      meta = instance;
+      console.log('entro'); 
+      var ongName = document.getElementById("NombreONG").value;
+      var ongMision = document.getElementById("Mision").value;
+      var ongVision = document.getElementById("Vision").value;
+      var ongObjective = document.getElementById("Objetivo").value;
+      return meta.addONG(ongName, ongMision, ongVision, ongObjective, {from: account, gas: 2000000});
+    }).then(function(value) {
+      console.log('daaa');
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error getting balance; see log.");
+    });
+    console.log('si algo');
+    
   },
+
   createDonator: function() {
     var balance_element = document.getElementById("balance");
-     var self = this;
+    var self = this;
 
     var nombre = parseInt(document.getElementById("nombre").value);
    
@@ -96,35 +149,15 @@ window.App = {
       //self.refreshBalance();
     }).catch(function(e) {
       console.log(e);
-      balance_element.innerHTML = 'jajaj';
+      balance_element.innerHTML = 'jaj';
     });
     
   },
   sendDonation: function() {
     
   },
-
-  sendCoin: function() {
-    var self = this;
-
-    var amount = parseInt(document.getElementById("amount").value);
-    var receiver = document.getElementById("receiver").value;
-
-    this.setStatus("Initiating transaction... (please wait)");
-
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.sendCoin(receiver, amount, {from: account});
-    }).then(function() {
-      self.setStatus("Transaction complete!");
-      self.refreshBalance();
-    }).catch(function(e) {
-      console.log(e);
-      self.setStatus("Error sending coin; see log.");
-    });
-  }
 };
+
 
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
