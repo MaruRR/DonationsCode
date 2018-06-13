@@ -192,8 +192,31 @@ window.App = {
     console.log('si algo');
     
   },
+
   sendDonation: function() {
-    
+    var meta;
+    //var balance_element = document.getElementById("balance");
+    var self = this;
+
+    var monto = document.getElementById("Monto").value;
+    var destino = document.getElementById("Destino").value;
+
+    ContractDonaciones.deployed().then(function (instance) {
+      console.log("instance");
+      console.log(instance);
+      console.log(monto);
+      console.log(destino);
+
+      meta = instance;
+      console.log('entro'); 
+      return meta.donation(destino, {from: account, gas: 2000000 , value: monto});
+    }).then(function(value) {
+      console.log('se envio');
+    }).catch(function(e) {
+      console.log(e);
+      console.log('ERRRORRRR');
+    });
+    console.log('si algo');
   },
 };
 
