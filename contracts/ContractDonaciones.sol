@@ -102,6 +102,6 @@ contract ContractDonaciones {
 	}
 
 	function confirmarDonacion(address _ong) public payable {
-
+		_ong.transfer(ONGs[_ong].actualBalance);
 	}
 }
